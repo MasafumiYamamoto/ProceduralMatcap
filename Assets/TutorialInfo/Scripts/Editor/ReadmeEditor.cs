@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CustomEditor(typeof(Readme))]
 [InitializeOnLoad]
-public class ReadmeEditor : Editor
+public class ReadmeEditor : UnityEditor.Editor
 {
     private const float k_Space = 16f;
     private static readonly string s_ShowedReadmeSessionStateName = "ReadmeEditor.showedReadme";
