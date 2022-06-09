@@ -10,21 +10,21 @@ namespace DefaultNamespace
         /// <summary>
         ///     UV座標系でのレイヤーが定義する球の中心
         /// </summary>
-        public Vector2 centerUV = new(0.5f, 0.5f);
+        public Vector2 CenterUV = new(0.5f, 0.5f);
 
         /// <summary>
         ///     全体に乗っかる色
         /// </summary>
-        public Color color = Color.blue;
+        public Color Color = Color.blue;
 
         /// <summary>
         ///     レイヤーが定義する球の半径
         /// </summary>
-        public float sphereRadius = 0.5f;
+        public float SphereRadius = 0.5f;
 
         /// <summary>
         ///     ベースとなるテクスチャ
         /// </summary>
-        public Texture2D texture = Texture2D.whiteTexture;
+        public Texture2D Texture = Texture2D.whiteTexture;
     }
 }

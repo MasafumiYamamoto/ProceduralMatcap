@@ -22,6 +22,13 @@ public class ProceduralMatCapInspector : MaterialEditor
         var rootElement = new VisualElement();
         rootElement.Bind(serializedObject);
         treeAsset.CloneTree(rootElement);
+
+        var colorField = rootElement.Q<ColorField>();
+        colorField.RegisterValueChangedCallback(e =>
+        {
+            material.SetColor("_Color", e.newValue);
+        });
+        
         return rootElement;
     }
 }

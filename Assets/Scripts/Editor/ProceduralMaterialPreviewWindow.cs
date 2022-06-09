@@ -8,21 +8,25 @@ namespace Editor
     /// </summary>
     public class ProceduralMaterialPreviewWindow : EditorWindow
     {
+        private GUIStyle _bgColor;
         private GameObject _currentTarget;
         private Material _targetMaterial;
         private UnityEditor.Editor _targetMaterialEditor;
 
-        private void OnGUI()
+        private void OnEnable()
         {
-            _targetMaterial = (Material)EditorGUILayout.ObjectField(_targetMaterial, typeof(Material), true);
-
-            var bgColor = new GUIStyle
+            _bgColor = new GUIStyle
             {
                 normal =
                 {
                     background = EditorGUIUtility.whiteTexture
                 }
             };
+        }
+
+        private void OnGUI()
+        {
+            _targetMaterial = (Material)EditorGUILayout.ObjectField(_targetMaterial, typeof(Material), true);
 
             if (_targetMaterial != null)
             {
@@ -36,8 +40,13 @@ namespace Editor
                         _targetMaterialEditor = UnityEditor.Editor.CreateEditor(_targetMaterial);
                 }
 
-                _targetMaterialEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
+                _targetMaterialEditor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), _bgColor);
             }
+        }
+
+        private void OnInspectorUpdate()
+        {
+            if (_targetMaterialEditor != null) Repaint();
         }
 
         [MenuItem("Example/GameObject Editor")]
