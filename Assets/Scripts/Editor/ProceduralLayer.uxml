@@ -1,4 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:Label text="Layer X" display-tooltip-when-elided="true" name="Label" style="-unity-font-style: bold;" />
-    <uie:ColorField label="Color" value="RGBA(0.000, 1.000, 1.000, 1.000)" hdr="true" />
-</ui:UXML>

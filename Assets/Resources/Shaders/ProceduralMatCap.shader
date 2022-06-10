@@ -2,8 +2,11 @@ Shader "Unlit/ProceduralMatCap"
 {
     Properties
     {
+        _LayerNum ("Layer Num", int) = 1
         _MatCap ("MatCap", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,0,1)
+        _CenterUV ("CenterUV", Vector) = (0.5, 0.5, 0, 0)
+        _Radius0 ("Radius 0", float) = 0.2
     }
     SubShader
     {
@@ -29,6 +32,15 @@ Shader "Unlit/ProceduralMatCap"
 
             sampler2D _MatCap;
             float4 _Color;
+            float2 _CenterUV;
+            float _Radius0;
+
+            float4 ApplyLayer(const int layerIndex, const float2 uv, const float4 color)
+            {
+                // 一旦UVが範囲内にいるか確認して_Colorを乗算してみる
+                const float distance = length(uv - _CenterUV);
+                return color * (distance < _Radius0 ? _Color : 1);
+            }
 
             v2f vert (const appdata_base v)
             {
@@ -48,7 +60,8 @@ Shader "Unlit/ProceduralMatCap"
             fixed4 frag (const v2f i) : SV_Target
             {
                 // sample the texture
-                const fixed4 col = tex2D(_MatCap, i.uv) * _Color;
+                fixed4 col = tex2D(_MatCap, i.uv);
+                col = ApplyLayer(0, i.uv, col);
                 return col;
             }
             ENDCG

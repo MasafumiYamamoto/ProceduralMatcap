@@ -5,7 +5,7 @@ namespace DefaultNamespace
     /// <summary>
     ///     ProceduralMatCapが持つ一つのレイヤー
     /// </summary>
-    public class Layer
+    public class ProceduralMatcapLayer
     {
         /// <summary>
         ///     UV座標系でのレイヤーが定義する球の中心

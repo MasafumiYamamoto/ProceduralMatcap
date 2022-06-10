@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using DefaultNamespace;
+using Editor;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,24 +15,53 @@ public class ProceduralMatCapInspector : MaterialEditor
 {
     [SerializeField] private VisualTreeAsset treeAsset;
 
+    private readonly List<ProceduralMatcapLayer> _layers = new();
+    private VisualElement _layerView;
+
     /// <summary>
     ///     マテリアルへのアクセス
     /// </summary>
-    private Material material => target as Material;
+    private Material Material => target as Material;
 
     public override VisualElement CreateInspectorGUI()
     {
         var rootElement = new VisualElement();
+        _layerView = new VisualElement();
         rootElement.Bind(serializedObject);
         treeAsset.CloneTree(rootElement);
 
-        var colorField = rootElement.Q<ColorField>();
-        colorField.RegisterValueChangedCallback(e =>
-        {
-            material.SetColor("_Color", e.newValue);
-        });
-        
+        var layerNum = Material.GetInt("_LayerNum");
+        var layerNumField = rootElement.Q<SliderInt>("LayerNum");
+        layerNumField.value = layerNum;
+        // 自力で初期化
+        UpdateLayerComponent(layerNum);
+        UpdateLayerView();
+
+        // レイヤー数が変わった際にビューに更新が入るようにいい感じに調整
+        layerNumField.RegisterValueChangedCallback(e => UpdateLayerComponent(e.newValue));
+
+        rootElement.Add(_layerView);
+
         return rootElement;
+    }
+
+    /// <summary>
+    ///     レイヤー用のビューを動的に構築する
+    /// </summary>
+    private void UpdateLayerView()
+    {
+        _layerView.Clear();
+        foreach (var layer in _layers) _layerView.Add(new ProceduralMatCapLayerDrawer(layer));
+    }
+
+    /// <summary>
+    ///     レイヤー用変数の中身を更新する
+    /// </summary>
+    private void UpdateLayerComponent(int layerNum)
+    {
+        _layers.Clear();
+        for (var i = 0; i < layerNum; i++) _layers.Add(new ProceduralMatcapLayer());
+        UpdateLayerView();
     }
 }
 // }

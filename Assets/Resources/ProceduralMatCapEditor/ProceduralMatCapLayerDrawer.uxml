@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Foldout text="LayerX">
+        <ui:VisualElement style="flex-direction: row; flex-wrap: wrap;">
+            <uie:ObjectField name="Texture" type="UnityEngine.Texture2D, UnityEngine.CoreModule" style="width: 20px; height: 20px;" />
+            <uie:ColorField label="カラー" value="RGBA(0.000, 1.000, 1.000, 1.000)" name="Color" />
+        </ui:VisualElement>
+        <uie:EnumField label="BlendType" value="Center" name="BlendType" />
+        <ui:Slider picking-mode="Ignore" label="球半径" value="42" high-value="100" name="SphereRadius" />
+        <uie:Vector2Field label="中心UV" name="CenterUV" />
+        <ui:Slider picking-mode="Ignore" label="フェード強さ" value="42" high-value="100" name="FadePower" />
+    </ui:Foldout>
+</ui:UXML>

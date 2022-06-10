@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Label text="ProceduralMatCap" display-tooltip-when-elided="true" style="-unity-font-style: bold; font-size: 14px;" />
+    <ui:SliderInt picking-mode="Ignore" label="Layer Num" value="1" high-value="4" name="LayerNum" low-value="1" />
+</ui:UXML>
