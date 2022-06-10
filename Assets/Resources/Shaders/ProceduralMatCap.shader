@@ -2,11 +2,13 @@ Shader "Unlit/ProceduralMatCap"
 {
     Properties
     {
-        _LayerNum ("Layer Num", int) = 1
-        _MatCap ("MatCap", 2D) = "white" {}
-        _Color ("Color", Color) = (1,1,0,1)
-        _CenterUV ("CenterUV", Vector) = (0.5, 0.5, 0, 0)
-        _Radius0 ("Radius 0", float) = 0.2
+        _LayerNum ("Total Layer Num", int) = 1
+        _MatCap0 ("MatCap 0", 2D) = "white" {}
+        _Color0 ("Color 0", Color) = (1,1,0,1)
+        _CenterUV0 ("CenterUV 0", Vector) = (0.5, 0.5, 0, 0)
+        _SphereRadius0 ("Radius 0", float) = 0.2
+        _LayerBlendType0 ("Layer Bledn Type 0", int) = 0
+        _FadePower0 ("Fade Power 0", float) = 0.5
     }
     SubShader
     {
@@ -30,16 +32,45 @@ Shader "Unlit/ProceduralMatCap"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MatCap;
-            float4 _Color;
-            float2 _CenterUV;
-            float _Radius0;
+            int _LayerNum;
+            
+            // 各レイヤーでのパラメータ
+            sampler2D _MatCap0;
+            float4 _Color0;
+            int _LayerBlendType0;
+            float _SphereRadius0;
+            float2 _CenterUV0;
+            float _FadePower0;
 
             float4 ApplyLayer(const int layerIndex, const float2 uv, const float4 color)
             {
                 // 一旦UVが範囲内にいるか確認して_Colorを乗算してみる
-                const float distance = length(uv - _CenterUV);
-                return color * (distance < _Radius0 ? _Color : 1);
+                const float distance = length(uv - _CenterUV0);
+                const float ratio = distance/_SphereRadius0;
+                const float attenuation = clamp((1-ratio)/(_FadePower0 + 0.001), 0, 1);
+                const float4 matCapColor = tex2D(_MatCap0, uv);
+                const half4 finalLayerColor = matCapColor * attenuation * _Color0;
+                float4 res = color;
+                switch (_LayerBlendType0)
+                {
+                case 0:
+                    // アルファブレンド
+                    res.rgb = lerp(color.rgb, finalLayerColor.rgb, finalLayerColor.a);
+                    break;
+                case 1:
+                    // 加算
+                    res.rgb += finalLayerColor.rgb * finalLayerColor.a;
+                    break;
+                case 2:
+                    // 乗算
+                    res.rgb *= lerp(1, finalLayerColor.rgb, finalLayerColor.a);
+                    break;
+                default:
+                    // NOTE:一旦想定外の値が来たら真っ白にする
+                    res.rgb = 1;
+                    break;
+                }
+                return res;
             }
 
             v2f vert (const appdata_base v)
@@ -57,11 +88,14 @@ Shader "Unlit/ProceduralMatCap"
                 return o;
             }
 
-            fixed4 frag (const v2f i) : SV_Target
+            fixed4 frag (const v2f input) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MatCap, i.uv);
-                col = ApplyLayer(0, i.uv, col);
+                float4 col = 0;
+                for (int i = 0; i < _LayerNum; i++)
+                {
+                    col = ApplyLayer(0, input.uv, col);
+                }
                 return col;
             }
             ENDCG

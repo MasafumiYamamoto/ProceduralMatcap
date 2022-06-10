@@ -15,7 +15,7 @@ public class ProceduralMatCapInspector : MaterialEditor
 {
     [SerializeField] private VisualTreeAsset treeAsset;
 
-    private readonly List<ProceduralMatcapLayer> _layers = new();
+    private readonly List<ProceduralMatCapLayer> _layers = new();
     private VisualElement _layerView;
 
     /// <summary>
@@ -60,7 +60,7 @@ public class ProceduralMatCapInspector : MaterialEditor
     private void UpdateLayerComponent(int layerNum)
     {
         _layers.Clear();
-        for (var i = 0; i < layerNum; i++) _layers.Add(new ProceduralMatcapLayer());
+        for (var i = 0; i < layerNum; i++) _layers.Add(new ProceduralMatCapLayer(Material, i));
         UpdateLayerView();
     }
 }

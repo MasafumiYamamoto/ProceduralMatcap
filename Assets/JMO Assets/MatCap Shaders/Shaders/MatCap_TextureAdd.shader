@@ -47,12 +47,12 @@ Shader "MatCap/Vertex/Textured Add"
 				}
 				
 				uniform sampler2D _MainTex;
-				uniform sampler2D _MatCap;
+				uniform sampler2D _MatCap0;
 				
 				fixed4 frag (v2f i) : COLOR
 				{
 					fixed4 tex = tex2D(_MainTex, i.uv);
-					fixed4 mc = tex2D(_MatCap, i.cap);
+					fixed4 mc = tex2D(_MatCap0, i.cap);
 
 			#ifndef UNITY_COLORSPACE_GAMMA
 					// perform the blending operation in gamma space to get the same result in linear space
