@@ -1,14 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:Foldout text="LayerX">
+    <ui:Foldout text="LayerX" name="Label">
         <ui:VisualElement style="flex-direction: row; flex-wrap: wrap;">
-            <uie:ObjectField name="MatCap" type="UnityEngine.Texture2D, UnityEngine.CoreModule"
-                             style="width: 50px; height: 50px;"/>
-            <uie:ColorField label="カラー" value="RGBA(0.000, 1.000, 1.000, 1.000)" name="Color"/>
+            <uie:ObjectField name="MatCap" type="UnityEngine.Texture2D, UnityEngine.CoreModule" style="width: 50px; height: 50px;" />
+            <uie:ColorField label="カラー" value="RGBA(0.000, 1.000, 1.000, 1.000)" name="Color" />
         </ui:VisualElement>
-        <uie:EnumField label="BlendType" value="AlphaBlend" name="LayerBlendType"
-                       type="DefaultNamespace.LayerBlendType, Assembly-CSharp"/>
-        <ui:Slider picking-mode="Ignore" label="球半径" value="0.5" high-value="1" name="SphereRadius"/>
-        <uie:Vector2Field label="中心UV" name="CenterUV"/>
-        <ui:Slider picking-mode="Ignore" label="フェード強さ" value="0.5" high-value="1" name="FadePower"/>
+        <uie:EnumField label="BlendType" value="AlphaBlend" name="LayerBlendType" type="DefaultNamespace.LayerBlendType, Assembly-CSharp" />
+        <ui:Slider picking-mode="Ignore" label="球半径" value="0.5" high-value="1" name="SphereRadius" />
+        <uie:Vector2Field label="中心UV" name="CenterUV" />
+        <ui:Slider picking-mode="Ignore" label="フェード強さ" value="0.5" high-value="1" name="FadePower" />
     </ui:Foldout>
 </ui:UXML>

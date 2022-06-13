@@ -23,6 +23,8 @@ public class ProceduralMatCapInspector : MaterialEditor
     /// </summary>
     private Material Material => target as Material;
 
+    private int LayerNumId => Shader.PropertyToID("_LayerNum");
+
     public override VisualElement CreateInspectorGUI()
     {
         var rootElement = new VisualElement();
@@ -30,7 +32,7 @@ public class ProceduralMatCapInspector : MaterialEditor
         rootElement.Bind(serializedObject);
         treeAsset.CloneTree(rootElement);
 
-        var layerNum = Material.GetInt("_LayerNum");
+        var layerNum = Material.GetInt(LayerNumId);
         var layerNumField = rootElement.Q<SliderInt>("LayerNum");
         layerNumField.value = layerNum;
         // 自力で初期化
@@ -60,6 +62,7 @@ public class ProceduralMatCapInspector : MaterialEditor
     private void UpdateLayerComponent(int layerNum)
     {
         _layers.Clear();
+        Material.SetInt(LayerNumId, layerNum);
         for (var i = 0; i < layerNum; i++) _layers.Add(new ProceduralMatCapLayer(Material, i));
         UpdateLayerView();
     }

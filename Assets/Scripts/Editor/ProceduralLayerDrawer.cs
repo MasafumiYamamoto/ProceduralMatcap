@@ -18,6 +18,7 @@ namespace Editor
             var container = treeAsset.Instantiate();
 
             // フィールドの取得
+            var labelField = container.Q<Foldout>("Label");
             var colorField = container.Q<ColorField>("Color");
             var centerUVField = container.Q<Vector2Field>("CenterUV");
             var fadePowerField = container.Q<Slider>("FadePower");
@@ -26,6 +27,7 @@ namespace Editor
             var sphereRadiusField = container.Q<Slider>("SphereRadius");
 
             // 初期値の反映
+            labelField.text = $"Layer {layer.Index}";
             matCapField.value = layer.MatCap;
             layerBlendTypeField.value = layer.BlendType;
             sphereRadiusField.value = layer.SphereRadius;

@@ -51,8 +51,10 @@ namespace DefaultNamespace
             BlendType = (LayerBlendType)material.GetInt(BlendTypeId);
             SphereRadius = material.GetFloat(SphereRadiusId);
             CenterUV = material.GetVector(CenterUVId);
-            FadePower = material.GetInt(FadePowerId);
+            FadePower = material.GetFloat(FadePowerId);
         }
+
+        public int Index => _index;
 
         /// <summary>
         ///     UV座標系でのレイヤーが定義する球の中心
